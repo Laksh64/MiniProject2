@@ -1,0 +1,155 @@
+<head>
+    <link rel="stylesheet" href="contacts.component.css">
+    </head>
+<div>
+
+  <h1><i class="fas fa-address-book"></i>&nbsp;&nbsp;Phone Book App</h1><br/><br/>
+  <h3>
+      Contacts
+      
+  </h3><br/>
+  <button class="btn btn-secondary " (click)="sortContactBox()">Sort</button>
+      <button class="btn btn-primary " (click)="addContactBox()">+ Add Contact</button>
+      
+  <div>
+      <div class="input-group mb-3">
+          <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Search for contacts..."
+          [(ngModel)]="searchName" (keyup)="searchContacts()">
+          <button type="primary">Search</button>
+      </div>
+      <div>
+          <span *ngFor="let cont of searchedContacts" class="alert alert-light search border rounded-0"
+           (click)="updateContactBox(cont)">
+              <div style="color: black; font-size: 1.2em;">
+                  
+                  <button class="btn btn-danger delete" (click)="deleteContact(cont)">Delete<i class="far fa-trash-alt"></i></button>
+              </div>
+              <div style="color: grey">
+                  <i class="fas fa-phone-alt"></i>
+                  
+              </div>
+          </span>
+      </div>
+  </div>
+  </div>
+  
+  <div *ngIf="addingContact" class="alert alert-light change">
+      <form [formGroup]="myForm"></form>
+          <div>
+              <h3 style="color: black;">New contact
+              <button class="btn cancel" (click)="addContact(3)">
+            
+                  <i ></i></button>
+                  
+              </h3>
+              
+          </div>
+          <hr/>
+          <div class="inp">
+              <input type="text" class="form-control" placeholder="First Name" formControlName="firstname">
+              <div class="alert alert-danger" *ngIf="firstname.touched && firstname.invalid">
+                  <span *ngIf="firstname.errors.required " ></span><ng-template type="hidden">First Name cannot be empty</ng-template>
+              </div>
+          </div>
+          <div class="inp">
+              <input type="text" class="form-control" placeholder="Last Name" formControlName="lastname">
+              <div class="alert alert-danger" *ngIf="lastname.touched && lastname.invalid">
+                  <span *ngIf="lastname.errors.required"><ng-template>Last Name cannot be empty</ng-template></span>
+              </div>
+          </div>
+              <div class="inp">
+              <input type="text" class="form-control" placeholder="Phone number" formControlName="phoneno">
+              <div class="alert alert-danger" *ngIf="phoneno.touched && phoneno.invalid">
+                  <span *ngIf="phoneno.errors.required"><ng-template>Phone number cannot be empty</ng-template></span>
+                  <span *ngIf="phoneno.errors.pattern"><ng-template>Phone number cannot contain non-numeric values</ng-template><br/></span>
+                  <span *ngIf="phoneno.errors.minlength"><ng-template>Phone number cannot be less than 7 digits</ng-template></span>
+                  <span *ngIf="phoneno.errors.maxlength"><ng-template>Phone number cannot be more than 10 digits</ng-template></span>
+              </div>
+          </div>
+          <button class="btn btn-secondary not-cancel" (click)="addContact(2)">Cancel</button>
+          <button class="btn btn-primary not-cancel" (click)="addContact(1)">Create</button>
+          <br/>
+      </form>
+  </div>
+  
+  <div *ngIf="sortingContact" class="alert alert-light change">
+      <form [formGroup]="mySortForm">
+          <div>
+              <h3 style="color: black;">Sort Contacts
+              <button class="btn cancel" (click)="sortContact(3)">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                    <path fill-rule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                  </svg>  
+                 
+                <i class="fas fa-times"></i></button>
+                <button>
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                        <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                      </svg>
+                </button>
+              </h3>
+          </div>
+          <hr/>
+          <div class="inp" Sort On:>
+             
+              <select class="form-control" formControlName="sorton">
+                  <option value=1>Name</option>
+                  <option value=2>Number</option>
+              </select>
+              
+              <select class="form-control" formControlName="sorttype" Sort Type:>
+                  <option value=1>Ascending</option>
+                  <option value=2>Descending</option>
+              </select>
+          </div>
+          <button class="btn btn-secondary not-cancel" (click)="sortContact(2)">Cancel</button>
+          <button class="btn btn-primary not-cancel" (click)="sortContact(1)">Sort</button>
+          <br/>
+      </form>
+  </div>
+  
+  <div *ngIf="updatingContact" class="alert alert-light change">
+      <form [formGroup]="myUpdateForm">
+          <div>
+              <h3 style="color: black;">Update Contact
+              <button class="btn cancel" (click)="updateContact(3)"><i class="fas fa-times">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-asterisk" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+                  </svg>
+                  
+              </i></button>
+              </h3>
+          </div>
+          <hr/>
+          <div class="inp">
+              <input type="text" class="form-control" placeholder="First Name" formControlName="ufirstname">
+              <div class="alert alert-danger" *ngIf="ufirstname.touched && ufirstname.invalid">
+                  <span *ngIf="ufirstname.errors.required">First Name cannot be empty</span>
+              </div>
+          </div>
+          <div class="inp">
+              <input type="text" class="form-control" placeholder="Last Name" formControlName="ulastname">
+              <div class="alert alert-danger" *ngIf="ulastname.touched && ulastname.invalid">
+                  <span *ngIf="ulastname.errors.required">Last Name cannot be empty</span>
+              </div>
+          </div>
+              <div class="inp">
+              <input type="text" class="form-control" placeholder="Phone number" formControlName="uphoneno">
+              <div class="alert alert-danger" *ngIf="uphoneno.touched && uphoneno.invalid">
+                  <span *ngIf="uphoneno.errors.required">Phone number cannot be empty</span>
+                  <span *ngIf="uphoneno.errors.pattern">Phone number cannot contain non-numeric values<br/></span>
+                  <span *ngIf="uphoneno.errors.minlength">Phone number cannot be less than 7 digits</span>
+                  <span *ngIf="uphoneno.errors.maxlength">Phone number cannot be more than 10 digits</span>
+              </div>
+          </div>
+          <button class="btn btn-secondary not-cancel" (click)="updateContact(2)">Cancel</button>
+          <button class="btn btn-primary not-cancel" (click)="updateContact(1)">Update</button>
+          <br/>
+      </form>
+  </div>
+<app-contacts></app-contacts>

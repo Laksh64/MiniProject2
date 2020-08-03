@@ -1,0 +1,40 @@
+.body {
+    background-image: url("https://www.wikihow.com/images/thumb/a/ae/Do-Real-Estate-Marketing-Step-12.jpg/v4-460px-Do-Real-Estate-Marketing-Step-12.jpg");}
+.container {
+    width: 50%;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+.h1 {
+    text-align: center;
+}
+.search {
+    display: block;
+    overflow: hidden;
+    margin: 0px;
+}
+.delete {
+    float: right; 
+    margin-left: -50%; 
+    margin-top: 0.5em; 
+    margin-bottom: 0.5em; 
+    margin-right: 0.5em;
+}
+.change {
+    position: fixed;
+    top: 2%;
+    width: 35%;
+    margin-left: 32.5%;
+    margin-right: 32.5%;
+}
+.inp {
+    margin-bottom: 5%;
+}
+.not-cancel {
+    float: right;
+    margin-left: 1em;
+}
+.cancel {
+    color: grey;
+    float: right;
+}
